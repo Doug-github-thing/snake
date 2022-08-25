@@ -1,0 +1,43 @@
+body {
+    /* round */
+    color: #A111A1;
+    background-color: beige;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 0fr);
+}
+
+.box {
+    mask-type: block;
+    outline: auto;
+    width: 15vmin;
+    height: 15vmin;
+    background-color: teal;
+}
+
+.box1 {
+    mask-type: block;
+    outline: auto;
+    width: 15vmin;
+    height: 15vmin;
+    background-color: #00bbbb;
+}
+
+.box2 {
+    mask-type: block;
+    outline: auto;
+    width: 15vmin;
+    height: 15vmin;
+    background-color: #00aaaa;
+}
+
+.box:hover {
+    background-color: #00808080;
+    color: green;
+}
+
+#funButton {
+    margin-top: 1vmin;
+}
