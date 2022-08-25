@@ -8,14 +8,69 @@
     <title>Document</title>
 </head>
 <body>
-    <button onclick="clicked()">Click me</button>
-    
+    <button id= 'funButton', onclick="clicked()">Don't click me</button>
     <p id="text"></p>
 
     <script>
-        function clicked() {
-            document.getElementById("text").innerHTML = "I nub!";
+        document.body.onload = makeGrid;
+        
+        function makeGrid() {
+            const grid = document.createElement('div');
+            grid.className = 'grid';
+
+            for(i = 1; i < 6; i++) {
+                for(j = 1; j < 6; j++) {
+                    const button = document.createElement('button');
+                    button.className = 'box';
+                    button.id = i + ' ' + j;
+                    button.onclick = function () {
+                        button.innerHTML = button.id;
+                    }
+                    grid.appendChild(button);
+                }
+            }
+            
+            const funButton = document.getElementById('funButton');
+            document.body.insertBefore(grid, funButton);
         }
+
+        function boxClicked(coordinates) {
+            coords = coordinates + ' ';
+            document.getElementById('text').innerHTML = coords;
+        }
+
+        function clicked() {
+            document.getElementById('text').innerHTML = 'how coulb';
+        }
+
     </script>
+
+    <style>
+        body {
+            /* round */
+            color: #A111A1;
+            background-color: beige;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 0fr);
+        }
+
+        .box {
+            mask-type: block;
+            outline: auto;
+            width: 15vmin;
+            height: 15vmin;
+            background-color: bisque;
+        }
+
+        .box:hover {
+            background-color: #3c92ae;
+            color: green;
+        }
+    </style>
+
+
 </body>
 </html>
