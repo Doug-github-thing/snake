@@ -1,7 +1,7 @@
 body {
     /* round */
     color: #A111A1;
-    background-color: beige;
+    background-color: bisque;
 }
 
 .grid {
@@ -22,7 +22,7 @@ body {
     outline: auto;
     width: 15vmin;
     height: 15vmin;
-    background-color: #00bbbb;
+    background-color: #00cccc;
 }
 
 .box2 {
@@ -30,13 +30,21 @@ body {
     outline: auto;
     width: 15vmin;
     height: 15vmin;
+    background-color: #00bbbb;
+}
+
+.box3 {
+    mask-type: block;
+    outline: auto;
+    width: 15vmin;
+    height: 15vmin;
     background-color: #00aaaa;
 }
 
-.box:hover {
-    background-color: #00808080;
-    color: green;
-}
+/* .box:hover {
+    background-color: #00ffff;
+    color: #00808080;
+} */
 
 #funButton {
     margin-top: 1vmin;

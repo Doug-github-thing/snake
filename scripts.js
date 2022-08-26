@@ -1,5 +1,6 @@
 document.body.onload = makeGrid;
-        
+
+
 function makeGrid() {
     const grid = document.createElement('div');
     grid.className = 'grid';
@@ -12,7 +13,8 @@ function makeGrid() {
             button.onclick = function () {
                 button.className = 'box1';
                 setTimeout(function() {button.className = 'box2';}, 500);
-                setTimeout(function() {button.className = 'box';}, 1000);
+                setTimeout(function() {button.className = 'box3';},1000);
+                setTimeout(function() {button.className = 'box';}, 1500);
             };
             grid.appendChild(button);
         }
@@ -22,12 +24,8 @@ function makeGrid() {
     document.body.insertBefore(grid, funButton);
 }
 
-function boxClicked(coordinates) {
-    coords = coordinates + ' ';
-    document.getElementById('text').innerHTML = coords;
-}
 
 function clicked() {
     document.getElementById('text').innerHTML = 'how coulb';
-    setTimeout(function() {document.getElementById('text').innerHTML = '';}, 3000);
+    setTimeout(function() {document.getElementById('text').innerHTML = '';}, 2222);
 }
