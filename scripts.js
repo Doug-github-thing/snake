@@ -2,7 +2,7 @@
 
     // these are the default values for mobile. If accessed on desktop this should be reversed by mobileCheck
     let horizontalDimension = 5;
-    let verticalDimsension = 8;
+    let verticalDimsension = 9;
 
     const touchThreshold = 30; // cutoff for how large a swipe distance needs to be to register as a swipe
 
@@ -108,9 +108,14 @@
 
 // game utility functions
 
+    let firstEvent = true;
+
     // does movement in specified direction if movement is available (38, 40, 37, 39 are up/down/left/right, respectively)
     function triggerEvent(direction) {
         
+        if(firstEvent)
+            document.getElementById('funButton').innerHTML = 'Don\'t click me';
+
         switch(direction) {
 
             case 38: // up
@@ -153,9 +158,4 @@
         setTimeout(function() {thisBox.className = 'decay2';   },   500);
         setTimeout(function() {thisBox.className = 'decay3';   },  1000);
         setTimeout(function() {thisBox.className = 'emptyBox'; },  1500);
-    }
-
-    function funButtonClicked() {
-        document.getElementById('text').innerHTML = 'I can\'t believe you\'ve done this';
-        setTimeout(function() {document.getElementById('text').innerHTML = '';}, 2000);
     }
