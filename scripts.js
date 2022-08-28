@@ -156,6 +156,6 @@
     }
 
     function funButtonClicked() {
-        document.getElementById('text').innerHTML = 'how coulb';
+        document.getElementById('text').innerHTML = 'I can\'t believe you\'ve done this';
         setTimeout(function() {document.getElementById('text').innerHTML = '';}, 2000);
     }
