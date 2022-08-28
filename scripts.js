@@ -9,7 +9,7 @@
 
     // game variables
     var animationSpeed = 0; // in ms
-    const rampUpSpeed = 100; // in ms
+    const rampUpSpeed = 500; // in ms
     var currentX = Math.floor(horizontalDimension / 2) + 1;
     var currentY = Math.floor(verticalDimsension / 2) + 1;
 
