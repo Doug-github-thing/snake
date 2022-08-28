@@ -121,8 +121,10 @@
                 break;
             }
          
-        // if it's eating food, make a new one
+        // if it's eating food, increment score counter and make more food
         if(newBox.className == 'foodBox') {
+            const scoreElement = document.getElementById('score');
+            scoreElement.innerHTML = Number(scoreElement.innerHTML) + 1;
             makeFood();
         }
 
@@ -148,7 +150,7 @@
         boxes[rand].className = 'foodBox';
     }
 
-    
+
 // event listener setup
 
     // if key pressed is an arrow key, trigger time iteration event
