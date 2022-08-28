@@ -1,7 +1,7 @@
 body {
     /* round */
-    color: #A111A1;
-    background-color: bisque;
+    color: black;
+    background-color: grey;
 }
 
 .grid {
@@ -9,43 +9,41 @@ body {
     grid-template-columns: repeat(5, 0fr);
 }
 
-.box {
-    mask-type: block;
+.emptyBox {
     outline: auto;
     width: 15vmin;
     height: 15vmin;
     background-color: teal;
 }
 
-.box1 {
-    mask-type: block;
+.selectedBox {
     outline: auto;
     width: 15vmin;
     height: 15vmin;
-    background-color: #00cccc;
+    background-color: #00eeee;
 }
 
-.box2 {
-    mask-type: block;
+.decay1 {
     outline: auto;
     width: 15vmin;
     height: 15vmin;
     background-color: #00bbbb;
 }
 
-.box3 {
-    mask-type: block;
+.decay2 {
     outline: auto;
     width: 15vmin;
     height: 15vmin;
     background-color: #00aaaa;
 }
 
-/* .box:hover {
-    background-color: #00ffff;
-    color: #00808080;
-} */
+.decay3 {
+    outline: auto;
+    width: 15vmin;
+    height: 15vmin;
+    background-color: #009999;
+}
 
 #funButton {
-    margin-top: 1vmin;
+    margin-top: 3vmin;
 }
