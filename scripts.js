@@ -1,12 +1,15 @@
 // environment setup
 
-    // these are the default values for mobile. If accessed on desktop this should be reversed by mobileCheck
+    // interface variables
+    // these are the default grid size values for mobile. If accessed on desktop this should be reversed by mobileCheck
     let horizontalDimension = 5;
     let verticalDimsension = 9;
 
     const touchThreshold = 30; // cutoff for how large a swipe distance needs to be to register as a swipe
 
-    mobileCheck();
+    // game variables
+    var animationSpeed = 0; // in ms
+    const rampUpSpeed = 100; // in ms
     var currentX = Math.floor(horizontalDimension / 2) + 1;
     var currentY = Math.floor(verticalDimsension / 2) + 1;
 
@@ -26,6 +29,7 @@
     window.onload = function() {
 
         const grid = document.createElement('div');
+        grid.id = 'grid';
         grid.className = 'grid';
                 
         // edit number of columns for dynamic sizing
@@ -46,15 +50,109 @@
         const funButton = document.getElementById('funButton');
         document.body.insertBefore(grid, funButton);
 
+        mobileCheck();
+ 
+        // initial active box
         document.getElementById(currentX + ' ' + currentY).className = 'selectedBox';
     }
 
+    // returns boolean value whether or not a given element is an inactive box
+    function isBoxInactive(box) {
+        const color = (window.getComputedStyle(box)).getPropertyValue('background-color');
+        return (box.className == 'emptyBox' && color == 'rgb(0, 128, 128)');
+    }
+
+
+// game utility functions
+
+    let firstEvent = true;
+    let foodIsAvailable = false;
+
+    // does movement in specified direction if movement is available (38, 40, 37, 39 are up/down/left/right, respectively)
+    function triggerEvent(direction) {
+        
+        if(firstEvent) {
+            document.getElementById('funButton').innerHTML = 'Don\'t click me';
+            makeFood();
+            firstEvent = false;
+        }
+
+        const thisBox = document.getElementById(currentX + ' ' + currentY);
+        let newBox = document.getElementById(currentX + ' ' + currentY);
+        switch(direction) {
+            case 38: // up
+                if(currentY > 1) {
+                    newBox = document.getElementById(currentX + ' ' + (currentY - 1));
+                    if(isBoxInactive(newBox) || newBox.className == 'foodBox') {
+                        thisBox.className = 'emptyBox';
+                        currentY--; 
+                    }
+                }
+                break;
+
+            case 40: // down
+                if(currentY < verticalDimsension) {
+                    newBox = document.getElementById(currentX + ' ' + (currentY + 1));
+                    if(isBoxInactive(newBox) || newBox.className == 'foodBox') {
+                        thisBox.className = 'emptyBox';
+                        currentY++;
+                    }
+                }
+                break;
+
+            case 37:  // left
+                if(currentX > 1) {
+                    newBox = document.getElementById((currentX - 1) + ' ' + currentY);
+                    if (isBoxInactive(newBox) || newBox.className == 'foodBox') {
+                        thisBox.className = 'emptyBox';
+                        currentX--;
+                    }
+                }
+                break;
+
+            case 39:  // right
+                if(currentX < horizontalDimension) {
+                    newBox = document.getElementById((currentX + 1) + ' ' + currentY);
+                    if (isBoxInactive(newBox) || newBox.className == 'foodBox') {
+                        thisBox.className = 'emptyBox';
+                        currentX++;
+                    }
+                }
+                break;
+            }
+         
+        // if it's eating food, make a new one
+        if(newBox.className == 'foodBox') {
+            makeFood();
+        }
+
+        document.getElementById(currentX + ' ' + currentY).className = 'selectedBox';
+    }
+
+    // create food
+    function makeFood () {
+        
+        animationSpeed += rampUpSpeed;
+
+        let boxes = document.getElementById('grid').children;
+        for(i = 0; i < boxes.length; i++) {
+            boxes[i].style["animation-duration"] = animationSpeed + 'ms';
+        }
+
+        let rand = Math.floor(Math.random()*boxes.length);
+
+        // if the randomly selected box is active, pick a new box
+        while(!isBoxInactive(boxes[rand]))
+            rand = Math.floor(Math.random()*boxes.length);
+
+        boxes[rand].className = 'foodBox';
+    }
+
+    
 // event listener setup
 
-    document.onkeydown = checkKey;
-
     // if key pressed is an arrow key, trigger time iteration event
-    function checkKey(e) {
+    document.onkeydown = function (e) {
         e = e || window.event;
         let key = Number(e.keyCode);
 
@@ -103,59 +201,4 @@
                 else
                     // swiped up
                     triggerEvent(38);
-    }
-
-
-// game utility functions
-
-    let firstEvent = true;
-
-    // does movement in specified direction if movement is available (38, 40, 37, 39 are up/down/left/right, respectively)
-    function triggerEvent(direction) {
-        
-        if(firstEvent)
-            document.getElementById('funButton').innerHTML = 'Don\'t click me';
-
-        switch(direction) {
-
-            case 38: // up
-                if(currentY > 1 && document.getElementById(currentX + ' ' + (currentY - 1)).className == 'emptyBox') {
-                    colorDecay(currentX, currentY); 
-                    currentY--; 
-                }
-                break;
-
-            case 40: // down
-                if(currentY < verticalDimsension && document.getElementById(currentX + ' ' + (currentY + 1)).className == 'emptyBox') {
-                    colorDecay(currentX, currentY);
-                    currentY++;
-                }
-                break;
-
-            case 37:  // left
-                if(currentX > 1 && document.getElementById((currentX - 1) + ' ' + currentY).className == 'emptyBox') {
-                    colorDecay(currentX, currentY);
-                    currentX--;
-                }
-                break;
-
-            case 39:  // right
-                if(currentX < horizontalDimension && document.getElementById((currentX + 1) + ' ' + currentY).className == 'emptyBox') {
-                    colorDecay(currentX, currentY);
-                    currentX++;
-                }
-                break;
-        }
-
-        document.getElementById(currentX + ' ' + currentY).className = 'selectedBox';
-    }
-     
-
-    function colorDecay(x, y) {
-        let thisBox = document.getElementById(x + ' ' + y)
-
-        thisBox.className = 'decay1';
-        setTimeout(function() {thisBox.className = 'decay2';   },   500);
-        setTimeout(function() {thisBox.className = 'decay3';   },  1000);
-        setTimeout(function() {thisBox.className = 'emptyBox'; },  1500);
     }
