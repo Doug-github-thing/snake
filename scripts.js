@@ -2,8 +2,8 @@
 
     // interface variables
     // these are the default grid size values for mobile. If accessed on desktop this should be reversed by mobileCheck
-    let horizontalDimension = 5;
-    let verticalDimsension = 9;
+    let horizontalDimension = 6;
+    let verticalDimsension = 12;
 
     const touchThreshold = 30; // cutoff for how large a swipe distance needs to be to register as a swipe
 
@@ -13,7 +13,7 @@
     var dir = 39; // what direction the snake is facing (38=up, 37=left, 39=right, 40=down), numbers based on arrow key definitions
     var currentX;
     var currentY;
-
+    var gameOgre = false;
 
     // for timing of auto-move
     var timeTracker = Date.now();
@@ -23,6 +23,9 @@
     var kappaKeepo = window.setInterval(snakeStep, 50);
 
     function snakeStep() {
+        if(gameOgre)
+            return;
+
         const rightNow = Date.now();
         if (rightNow - timeTracker > 998)
             triggerEvent(dir);
@@ -46,7 +49,7 @@
         mobileCheck();
         
         currentX = Math.floor(horizontalDimension / 2) + 1;
-        currentY = Math.floor(verticalDimsension / 2) + 1;
+        currentY = Math.floor(verticalDimsension  / 2) + 1;
 
         const grid = document.createElement('div');
         grid.id = 'grid';
@@ -88,7 +91,9 @@
 
     // does movement in specified direction if movement is available (38, 40, 37, 39 are up/down/left/right, respectively)
     function triggerEvent(direction) {
-        
+        if(gameOgre)
+            return;
+            
         if(firstEvent) {
             document.getElementById('funButton').innerHTML = 'Don\'t click me';
             makeFood();
@@ -106,7 +111,11 @@
                         currentY--;
                         dir = direction;
                     }
+                    else
+                        endGame();
                 }
+                else
+                    endGame();
                 break;
 
             case 40: // down
@@ -117,7 +126,11 @@
                         currentY++;
                         dir = direction;
                     }
+                    else
+                        endGame();
                 }
+                else
+                    endGame();
                 break;
 
             case 37:  // left
@@ -128,7 +141,11 @@
                         currentX--;
                         dir = direction;
                     }
+                    else
+                        endGame();
                 }
+                else
+                    endGame();
                 break;
 
             case 39:  // right
@@ -139,10 +156,14 @@
                         currentX++;
                         dir = direction;
                     }
+                    else
+                        endGame();
                 }
+                else
+                    endGame();
                 break;
             }
-         
+            
         // if it's eating food, increment score counter and make more food
         if(newBox.className == 'foodBox') {
             const scoreElement = document.getElementById('score');
@@ -168,10 +189,36 @@
         let rand = Math.floor(Math.random()*boxes.length);
 
         // if the randomly selected box is active, pick a new box
-        while(!isBoxInactive(boxes[rand]))
+        let loopCounter = 0;
+        let gameEnds = false;
+        while(!isBoxInactive(boxes[rand]) && !gameEnds) {
             rand = Math.floor(Math.random()*boxes.length);
+            if(loopCounter > 3000) // if it's having a hard time finding an open square, check to see if there are any open squares at all.
+                                 // choose the first open square. If there are none, the game ends
+                {
+                for(i=0; i<boxes.length; i++)
+                    if(!isBoxInactive(boxes[i])) {
+                        rand = i;
+                        break;
+                    }
+                    gameEnds = true;
+                }
+            loopCounter++;
+        }
 
-        boxes[rand].className = 'foodBox';
+        if (gameEnds)
+            endGame();
+        else
+            boxes[rand].className = 'foodBox';
+    }
+
+    function endGame() {
+        const youLoseText = document.createElement('div');
+        youLoseText.setAttribute('style','position:fixed;top:50%;left:50%;background-color:white;');
+        youLoseText.innerHTML = "Game over with a score of " + document.getElementById('score').innerHTML + "!";
+        document.body.appendChild(youLoseText);
+
+        gameOgre = true;
     }
 
 
@@ -216,15 +263,15 @@
             if(xDiff > yDiff)
                 if(touchendX > touchstartX)
                     // swiped right
-                    triggerEvent(3);
+                    triggerEvent(39);
                 else 
                     // swiped left
-                    triggerEvent(9);
+                    triggerEvent(37);
             else
                 if(touchendY > touchstartY)
                     // swiped down
-                    triggerEvent(6);
+                    triggerEvent(40);
                 else
                     // swiped up
-                    triggerEvent(12);
+                    triggerEvent(38);
     }
