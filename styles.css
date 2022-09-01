@@ -30,7 +30,7 @@ body {
 @keyframes decay {
     0%   { background-color: #00cccc; }
     50%  { background-color: #00aaaa; }
-    100% { background-color: #008080; }
+    100% { background-color: #009999; }
 }
 
 @keyframes blink {
