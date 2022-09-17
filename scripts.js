@@ -2,8 +2,8 @@
 
     // interface variables
     // these are the default grid size values for mobile. If accessed on desktop this should be reversed by mobileCheck
-    let horizontalDimension = 6;
-    let verticalDimsension = 12;
+    let horizontalDimension = 5;
+    let verticalDimsension = 11;
 
     const touchThreshold = 30; // cutoff for how large a swipe distance needs to be to register as a swipe
 
